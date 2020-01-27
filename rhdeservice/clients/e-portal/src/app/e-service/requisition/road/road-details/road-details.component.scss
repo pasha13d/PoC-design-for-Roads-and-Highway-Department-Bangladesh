@@ -1,0 +1,123 @@
+.mar-btm-11{
+  margin-bottom: 11px;
+}
+
+.bottom-panel-height{height: 35px}
+
+.triangle-right {
+	width: 0;
+	height: 0;
+	border-top: 12px solid transparent;
+	border-left: 25px solid #555;
+	border-bottom: 12px solid transparent;
+}
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn {
+  border: 1px solid #079CAF;
+  color: white;
+  background-color: #0099AD;
+  // padding: 4px 20px;
+	font-size: 14px;
+}
+.upload-btn-wrapper:hover{
+	cursor: pointer;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+.rectangleActive {
+  min-width: 110px;
+  // height: 35px;
+  color: rgb(250, 249, 249);
+  background-color: #1E88E5;
+  text-align: center;
+  padding: 7px 14px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 16px;
+}
+.rectangleDone {
+  min-width: 110px;
+  // height: 35px;
+  color: rgb(250, 249, 249);
+  background-color: #43A047;
+  text-align: center;
+  padding: 7px 14px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 16px;  
+}
+.rectangleNotDone {
+  min-width: 110px;
+  // height: 35px;
+  color: rgb(250, 249, 249);
+  background-color: #757575;
+  text-align: center;
+  padding: 7px 14px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 16px;
+}
+.matIcon{
+  vertical-align: middle;
+  font-size: 22px;
+}
+.active-icon {
+  color: white;
+}
+
+.file{
+ color: #079CAF ;
+ cursor: pointer;
+}
+
+.file:hover{
+  text-decoration: #1E88E5 underline;
+}
+
+.step-number{
+  background: wheat;
+  color: black;
+  padding: 2px 10px 2px 6px;
+  border-radius: 50%;
+}
+.table-head{
+  background-color: #B6D7A8;
+}
+
+.textCenter{
+  text-align: center;
+}
+.matCreate{
+  color: black;
+}
+
+// .table th, .table td {
+//   padding: .5rem 0rem;
+//   vertical-align: center;
+// }
+.send-btn-clr{
+  background: green;
+  color: white;
+  font-size: 14px;
+}
+
+a.hover {
+  color: black;
+  text-decoration: none;
+}
+
+a.hover:hover {
+  text-decoration: underline;
+  color: blue;
+}

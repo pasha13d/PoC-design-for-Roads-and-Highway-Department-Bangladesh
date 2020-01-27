@@ -1,0 +1,18 @@
+interface Includer {
+  def include(String... args)
+}
+
+def applyFrom(String folder) {
+  apply from: folder + '/settings.gradle'
+  def includer = [
+    include: { args ->
+          args.each {
+            project(it.startsWith(':') ? it : ':' + it).projectDir =
+                new File(rootDir, folder + "/" + (it.startsWith(':') ? it.substring(1) : it).replace(':', '/'))
+          }
+    }] as Includer
+
+  apply from: folder + '/settings.gradle', to: includer
+}
+
+

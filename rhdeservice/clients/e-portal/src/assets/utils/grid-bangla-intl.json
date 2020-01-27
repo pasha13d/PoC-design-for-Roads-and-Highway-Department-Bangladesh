@@ -1,0 +1,30 @@
+
+{
+    "bn-BD": {
+        "grid": {
+            "EmptyRecord": "কোন তথ্য খুঁজে পাওয়া যায়নি",
+            "True": "সত্য",
+            "False": "মিথ্যে",
+            "InvalidFilterMessage": "অবৈধ ফিল্টার তথ্য",
+            "GroupDropArea": "কলাম শ্রেণীবদ্ধ করতে এখানে একটি কলাম শিরোনাম টেনে আনুন",
+            "UnGroup": "শ্রেণীবদ্ধ সমন্বয় অবস্থা থেকে মুক্ত করতে এখানে ক্লিক করুন",
+            "GroupDisable": "এই কলামের জন্য শ্রেণীবদ্ধ সমন্বয় নিষ্ক্রিয় করা",
+            "EmptyDataSourceError": "DataSource must not be empty at initial load since columns are generated from dataSource in AutoGenerate Column Grid",
+            "Item": "টি",
+            "Items": "টি"
+        },
+        "pager": {
+            "currentPageInfo": "পৃষ্ঠা {0}/{1}",
+            "totalItemsInfo": "(সর্বমোট {0}টি)",
+            "firstPageTooltip": "প্রথম পৃষ্ঠা দেখুন",
+            "lastPageTooltip": "শেষ পৃষ্ঠা দেখুন",
+            "nextPageTooltip": "পরবর্তী পৃষ্ঠা দেখুন",
+            "previousPageTooltip": "পূর্ববর্তী পৃষ্ঠা দেখুন ",
+            "nextPagerTooltip": "Go to next pager",
+            "previousPagerTooltip": "Go to previous pager",
+            "pagerDropDown": "পৃষ্ঠাপ্রতি সন্নিবেশ সংখ্যা ",
+            "pagerAllDropDown": "আয়োজন",
+            "All": "সকল"
+        }
+    }
+}

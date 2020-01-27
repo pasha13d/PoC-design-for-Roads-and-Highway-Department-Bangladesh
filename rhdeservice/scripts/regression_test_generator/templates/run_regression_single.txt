@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]
+  	then
+        DEPLOYMENT_URL=<ZUUL_URL>
+    else
+        DEPLOYMENT_URL=$1
+fi
+
+if [ -z "$2" ]
+  	then
+        ROUTE=<ZUUL_ROUTE>
+    else
+        ROUTE=$2
+fi
+
+if [ -z "$3" ]
+  	then
+        TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjYzMDM3ODYsInVzZXJfbmFtZSI6InRhbmltIiwiYXV0aG9yaXRpZXMiOlsiQVNULlFDLUNPTU1JVFRFRSIsIkFTVC5BU1NFVC1JTi1DSEFSR0UiLCJQUkMuUEUiLCJBU1QuQVNTRVQtTUFOQUdFUiJdLCJqdGkiOiIxOWZhMjdkZS1iODgzLTRmOTUtOTMyZC01Y2Y0OTBhMTViNTEiLCJjbGllbnRfaWQiOiJncnAtd2ViLXBvcnRhbCIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdfQ.Kt-yDo1OqYJWbQMrRlAdWC4zxykBc2sLbfzseWHyY9Y
+    else
+        TOKEN=$3
+fi
+
+URL=${DEPLOYMENT_URL}/${ROUTE}/
+SERVICE=<SERVICE>
+cd script
+

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GRP Regression Test Report</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="http://kozea.github.com/pygal.js/latest/pygal-tooltips.min.js"></script>
+    <style>
+        table.outer {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        hr {
+            border: 1px inset #f8f8f8;
+        }
+
+        h1 {
+            font-size: 1.5em;
+            color: #606060;
+        }
+
+        h2 {
+            font-size: 1.45em;
+            color: #606060;
+        }
+
+        h3 {
+            font-size: 1.30em;
+            color: #606060;
+        }
+
+        h4 {
+            font-size: 1.15em;
+            color: #606060;
+        }
+
+        h5 {
+            font-size: 1.00em;
+            color: #606060;
+        }
+
+        h6 {
+            font-size: 0.8em;
+            color: #808080;
+            margin-top: 0px;
+            padding-top: 0px;
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+        }
+
+        h1.narrow-bottom-gap, h2.narrow-bottom-gap, h3.narrow-bottom-gap, h4.narrow-bottom-gap, h5.narrow-bottom-gap, p.narrow-bottom-gap {
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+        }
+
+        h2.accordion {
+            cursor: pointer;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            transition: 0.4s;
+        }
+
+        h2.accordion:after {
+            content: '\02795'; /* Unicode character for "plus" sign (+) */
+            color: #707070;
+            float: right;
+            vertical-align: middle;
+            margin-left: 5px;
+            margin-right: 20px;
+            font-size: 0.70em;
+        }
+
+        h2.accordion.active:after {
+            content: "\2796"; /* Unicode character for "minus" sign (-) */
+        }
+
+        div.panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+
+        span.tiny {
+            font-size: 0.60em;
+            font-family: cursive;
+        }
+
+        span.small {
+            font-size: 0.95em;
+        }
+
+        p.red, span.red {
+            color: red;
+        }
+
+        th, td {
+            padding: 10px;
+        }
+
+        table.summary {
+            font-size: 0.8em;
+            font-family: sans-serif;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border-spacing: 1px;
+            background-color: #f8f8f8;
+        }
+
+
+        table.service {
+            font-size: 0.7em;
+            font-family: sans-serif;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            border-spacing: 3px;
+            background-color: #f4f4f4;
+            border: 1px solid #ffffff;
+            border-collapse: collapse;
+        }
+
+        table.service td {
+            border: 1px solid #ffffff;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            padding-top: 1px;
+            padding-bottom: 1px;
+        }
+
+        th.dark, td.dark {
+            background-color: #e0e0e0;
+        }
+
+        th.light, td.light {
+            background-color: #f8f8f8;
+        }
+
+        th.left, td.left {
+            text-align: left;
+        }
+
+        th.right, td.right {
+            text-align: right;
+        }
+
+        th.center, td.center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1 class="narrow-bottom-gap">GRP Regression Test Report</h1>
+<h6>{{ d['generated-at'] }}</h6>
+<h6>Begin : {{ d['begin'] }} &nbsp; End : {{ d['end'] }} &nbsp; Duration : {{ d['duration'] }}</h6>
+<hr></hr>
+<table class="outer" style="width: 100%;">
+    <tr>
+        <td>
+            <div>
+                <table class="summary">
+                    <tbody>
+                    <tr>
+                        <td rowspan="3" class="left dark">
+                            Services
+                        </td>
+                        <td class="left">
+                            Total
+                        </td>
+                        <td class="center dark">
+                            {{ d['products-count'] }}
+                        </td>
+                        <td class="left">
+                            {{ d['products']|map(attribute='product')|join(',')|to_link|join(', ') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left">
+                            Passed
+                        </td>
+                        <td class="center dark">
+                            <span>{{ d['products-pass-count'] }}</span>
+                        </td>
+                        <td class="left">
+                                <span class="dark">
+                                    {{ d['products']|selectattr("coverage-status", "equalto", True)|map(attribute='product')|join(',')|to_link|join(', ') }}
+                                </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left">
+                            Failed
+                        </td>
+                        <td class="center dark">
+                            <span class="red">{{ d['products-fail-count'] }}</span>
+                        </td>
+                        <td class="left">
+                                <span class="red">
+                                    {{ d['products']|selectattr("coverage-status", "equalto", False)|map(attribute='product')|join(',')|to_link|join(', ') }}
+                                </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </td>
+        <td>
+            <div>
+                <table class="summary">
+                    <tbody>
+                    <tr>
+                        <td rowspan="3" class="left dark">
+                            End Points
+                        </td>
+                        <td class="left">
+                            Total
+                        </td>
+                        <td class="center dark">
+                            {{ d['services-count'] }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left">
+                            Regression Failed
+                        </td>
+                        <td class="center dark">
+                            {% if d['services-fail-count'] > 0 %}
+                            <span class="red">{{ d['services-fail-count'] }}</span>
+                            {% else %}
+                            <span>{{ d['services-fail-count'] }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left">
+                            Regression Passed
+                        </td>
+                        <td class="center dark">
+                            {{ d['services-pass-count'] }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </td>
+        <td>
+            {% set s = {'passed': [{'value': d['services-pass-count'], 'label': 'regression Test', 'color': 'green'}],
+            'failed': [{'value': d['services-fail-count'], 'label': 'regression Test', 'color': 'red'}]} %}
+            {{ services_pie_chart(s) }}
+        </td>
+    </tr>
+</table>
+
+<div style="margin-left: 10px;">
+    {% for p in d['products'] %}
+    <h2 class="narrow-bottom-gap accordion" id="{{ p['products'] }}">
+        {% if p['coverage-status'] == False %}
+            <span class="red">{{ p['product'] }}</span>
+            <span class="tiny"><a href="#top">top</a></span>
+        {% else %}
+            <span>{{ p['product'] }}</span>
+            <span class="tiny"><a href="#top">top</a></span>
+        {% endif %}
+    </h2>
+    {% if p['services-fail-count'] > 0 %}
+    <span class="small red">({{ p['services-fail-count'] }}) services out of ({{p['services-count']}}) failed regression</span>
+    {% else %}
+    <span class="small">all ({{p['services-count']}}) services passed regression</span>
+    {% endif %}
+    <hr></hr>
+    <div class="panel" style="margin-left: 10px;">
+        <div style="margin-left: 10px;">
+            {% for f in p['features'] %}
+            <h4 class="narrow-bottom-gap">
+                {% if f['coverage-status'] == False %}
+                <span class="red">{{ p['product'] + '-' + f['feature'] }}</span>
+                {% else %}
+                <span>{{ p['product'] + '-' + f['feature'] }}</span>
+                {% endif %}
+            </h4>
+            {% if f['services-fail-count'] > 0 %}
+            <span class="small red">({{f['services-fail-count']}}) services out of ({{f['services-count']}}) failed regression</span>
+            {% else %}
+            <span class="small">all ({{f['services-count']}}) services passed regression</span>
+            {% endif %}
+            <div style="margin-left: 10px;">
+                {% for s in f['services'] %}
+                <h5 class="narrow-bottom-gap">
+                    {% if s['coverage-status'] == False %}
+                    <span class="red">{{ p['product'] + '-' + f['feature'] + '-' + s['service'] }}</span>
+                    {% else %}
+                    <span>{{ p['product'] + '-' + f['feature'] + '-' + s['service'] }}</span>
+                    {% endif %}
+                </h5>
+                {% if s['path-exists'] == False %}
+                    <p class="red">Service Path missing</p>
+                {% else %}
+                {% if s['scripts-path-exists'] == False %}
+                    <p class="red">Script directory missing</p>
+                {% else %}
+                <table class="service">
+                    <thead>
+                    <tr>
+                        <th class="center dark" style="width: 40px;">
+                            #
+                        </th>
+                        <th class="left dark">
+                            Tests in script directory
+                        </th>
+                        <th class="left dark">
+                            Status
+                        </th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th class="center dark" style="width: 40px;"></th>
+                        <th class="left dark" colspan="2">
+                            <span>({{ s['tests-pass-count'] }}) tests passed and ({{ s['tests-fail-count'] }}) tests failed out of ({{ s['tests-count']}}) tests</span>
+                        </th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for row in s['tests'] %}
+                        {% if row[2] == 'Passed' %}
+                            <tr>
+                                <td class="center">
+                                    {{ row[0] }}
+                                </td>
+                                <td class="left">
+                                    <span>{{ row[1] }}</span>
+                                </td>
+                                <td class="left">
+                                    <span>Passed</span>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td class="center">
+                                    {{ row[0] }}
+                                </td>
+                                <td class="left">
+                                    <span class="red">{{ row[1] }}</span>
+                                </td>
+                                <td class="left">
+                                    <span>Failed</span>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<script>
+    var accp = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < accp.length; i++) {
+        accp[i].onclick = function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+
+            while (panel && panel.className != 'panel') {
+                panel = panel.nextElementSibling
+            }
+
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        }
+    }
+</script>
+</body>
+</html>

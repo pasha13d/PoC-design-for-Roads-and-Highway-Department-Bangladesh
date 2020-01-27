@@ -1,0 +1,152 @@
+<mat-card>
+  <mat-card-content>
+    <div class="row justify-content-center">
+      <div *ngFor="let steps of stepList; let i = index" class="ml-2">
+        <div *ngIf="steps.isdone=='true' && steps.isactive=='false'">
+          <div class="textCenter">
+            <mat-icon class="matIcon">done</mat-icon>
+            <span  class="aligned-with-icon  step-number"> {{i+1}}</span>
+          </div>
+          <div class="aligned-with-icon rectangleDone ml-2">{{steps.text}}</div>
+      </div>
+      <div *ngIf="steps.isdone=='false' && steps.isactive=='true'">
+         <div class="textCenter">
+           <mat-icon class="matIcon active-icon matCreate">create</mat-icon>
+           <span  class="aligned-with-icon  step-number"> {{i+1}}</span>
+         </div>
+       <div class="aligned-with-icon rectangleActive  ml-2">{{steps.text}}</div>
+    </div>
+     <div *ngIf="steps.isdone=='false' && steps.isactive=='false'">
+       <div class="textCenter">
+         <mat-icon class="matIcon">block</mat-icon>
+         <span  class="aligned-with-icon step-number"> {{i+1}}</span>
+       </div>
+       <div class="aligned-with-icon rectangleNotDone ml-2">{{steps.text}}</div>
+     </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card class="mt-2">
+  <mat-card-title>
+    {{ 'road_requisition_details' | translate }}
+    <a mat-flat-button color="primary" class="pull-right" (click)="goBack()">
+      <mat-icon>list</mat-icon>
+    </a>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <mat-card-content class="pt-3">
+    <div class="row">
+      <div class="col-md-4 col-12">
+        <p><b> {{ 'division' | translate }} :</b> {{details.division}} </p>
+        <p><b> {{ 'district' | translate }} :</b> {{details.district}} </p>
+        <p><b> {{ 'upazilla' | translate }} :</b> {{details.upazilla}} </p>
+        <p><b> {{ 'postal-code' | translate }} :</b> {{details.postalCode}} </p>
+      </div>
+    
+      <div class="col-md-4 col-12">
+        <p><b> {{ 'location' | translate }} :</b> {{ details.location }} </p>
+        <p><b> {{ 'startPoint' | translate }} :</b> {{ details.startPoint }} </p>
+        <p><b> {{ 'endPoint' | translate }} :</b> {{ details.endPoint }} </p>
+        <p><b>{{ 'any_river_or_any_waterbody_between_the_two_point' | translate }} :</b> {{ details.isriverOrWaterbodynear }} </p>
+      </div>
+      <div class="col-md-4 col-12">
+        <p><b> {{ 'purpose' | translate }} :</b> {{ details.purpose }} </p>
+        <p><b>{{ 'current_status' | translate }} :</b> {{ details.status }} </p>
+      </div>
+
+      <div class="col-12">
+        <hr>
+      </div>
+      <div class="col-12 col-md-3">
+          <div class="progress form-group" *ngIf="progress > 0">
+              <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
+              </div>
+          </div>
+          <div class="upload-btn-wrapper">
+              <!-- <span>{{'please_upload_your_file' | translate}}</span> -->
+              <button class="upload-btn mr-2" mat-flat-button>{{'upload_file' | translate}}</button>
+              <input type="file" id="file" (change)="fileUpload($event)" enctype="multipart/form-data" />
+              <span>{{this.actualFilename}}</span>
+          </div>
+      </div>
+      <div class="col-12 col-md-5">
+        <div class="text-center">
+            <button type="button" class="mr-2" mat-flat-button color="primary" [disabled]='previousBtn' (click)="goToPrevious()">
+              <mat-icon>save</mat-icon> {{ "previous_step" | translate }}
+            </button>
+            <button type="button" class="mr-2" mat-flat-button color="primary" [disabled]='approveBtn' (click)="approve()">
+              <mat-icon>save</mat-icon> {{ "Approved" | translate }}
+            </button>
+            <button type="button" class="mr-2" mat-flat-button color="primary" [disabled]='nextBtn' (click)="goToNext()">
+              <mat-icon>save</mat-icon> {{ "next_step" | translate }}
+            </button>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="input-group">
+          <select name="" id="" class="form-control" [(ngModel)]="forwardPerson" [disabled]='previousBtn' aria-describedby="basic-addon2">
+            <option value="" disabled> Select Step</option>
+            <option [ngValue]= "opt" *ngFor="let opt of loginStepMapList" >
+              {{opt.stepName}} ({{opt.name}})
+            </option>
+          </select>
+          <div class="input-group-append ml-2">
+            <button class="input-group-text send-btn-clr" [disabled]='previousBtn' id="basic-addon2" (click)="assignPerson()">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="mt-2">
+  <mat-card-title>{{ 'road_requisition_history' | translate }}</mat-card-title>
+  <mat-divider></mat-divider>
+  <mat-card-content class="pt-3 text-center">
+    <table class="table table-sm table-bordered">
+      <thead class="table-head">
+        <tr class="">
+          <th>{{ 'serial_no' | translate }}</th>
+          <th>{{ 'date' | translate }}</th>
+          <th>{{ 'from_step' | translate }}</th>
+          <th>{{ 'actualFilename' | translate }}</th>
+          <th>{{ 'to_step' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr  *ngFor="let state of stateList; let i = index ">
+            <td class="">
+              {{i+1 | localNumber}} 
+            </td>
+            <td class="">
+              {{state.createdon}}
+            </td>
+            <td class="text-left">
+                {{state.from_step}}
+            </td>
+            <td class="file" (click)="fileDownload(state.fileName, state.actualFilename)" class="text-left" style="cursor: pointer;">
+              <a class="hover">{{state.actualFilename}}</a>
+            </td>
+            <!-- <td *ngIf= "state.to_step !== '' ">
+              <i class="material-icons">
+                  play_arrow
+              </i>
+            </td> -->
+            <!-- <td *ngIf= "state.to_step == null ">
+               <div></div>
+            </td> -->
+            <td class="text-left">
+              {{state.to_step}}
+            </td>
+          </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>
+<mat-card class="mt-2">
+  <mat-card-content>
+    <app-road-requisition-comment [oid]="route.snapshot.params.oid" ></app-road-requisition-comment>
+  </mat-card-content>
+</mat-card>
+

@@ -1,0 +1,6 @@
+pygal
+jinja2
+pygsheets
+pandas
+numpy
+google-api-python-client

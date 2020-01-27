@@ -1,0 +1,120 @@
+<mat-card>
+  <mat-card-title>{{ 'road_add' | translate }}
+    <a mat-flat-button color="primary" class="pull-right" (click)="goBack()">
+      <mat-icon>list</mat-icon>
+    </a>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <mat-card-content class="pt-3">
+    <form [formGroup]="roadForm">
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="{{ 'division' | translate }}" [matAutocomplete]="division"
+              formControlName="division" required>
+            <mat-autocomplete #division="matAutocomplete" [displayWith]="displayfilterDivision" (optionSelected)='getDistrictList()'>
+              <mat-option *ngFor="let divisions of filteredDivisionNames | async" [value]="divisions">
+                {{divisions.divisionNameBn}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error>
+              <span
+                *ngIf="!roadForm.get('division').valid && roadForm.get('division').touched">{{ 'division' | translate }}</span>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="{{ 'district' | translate }}" [matAutocomplete]="district"
+              formControlName="district" required>
+            <mat-autocomplete #district="matAutocomplete" [displayWith]="displayfilterDistrict" (optionSelected)='getUpazillaList()' >
+              <mat-option *ngFor="let districts of filteredDistrictNames | async" [value]="districts">
+                {{districts.districtNameBn}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error>
+              <span
+                *ngIf="!roadForm.get('district').valid && roadForm.get('district').touched">{{ 'district' | translate }}</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <input matInput placeholder="{{ 'upazilla' | translate }}" [matAutocomplete]="upazilla"
+              formControlName="upazilla" required>
+            <mat-autocomplete #upazilla="matAutocomplete" [displayWith]="displayfilterUpazilla" >
+              <mat-option *ngFor="let upazillas of filteredUpazillaNames | async" [value]="upazillas">
+                {{upazillas.upazillaNameBn}}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error>
+              <span
+                *ngIf="!roadForm.get('upazilla').valid && roadForm.get('upazilla').touched">{{ 'upazilla' | translate }}</span>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <input matInput placeholder="{{ 'postalCode' | translate }}" formControlName="postalCode" autocomplete="off"
+              [errorStateMatcher]="matcher" required>
+            <mat-error>
+              <span
+                *ngIf="!roadForm.get('postalCode').valid && roadForm.get('postalCode').touched">{{ 'postalCode' | translate }}</span>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="{{ 'location' | translate }}" formControlName="location" autocomplete="off"
+              [errorStateMatcher]="matcher" required></textarea>
+            <mat-error>
+              <span
+                *ngIf="!roadForm.get('location').valid && roadForm.get('location').touched">{{ 'location' | translate }}</span>
+            </mat-error>
+          </mat-form-field>
+
+        </div>
+        <div class="col-md-6 col-12">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="{{ 'startPoint' | translate }}" formControlName="startPoint" autocomplete="off"
+              [errorStateMatcher]="matcher" required>
+            <mat-error>
+              <span
+                *ngIf="!roadForm.get('startPoint').valid && roadForm.get('startPoint').touched">{{ 'startPoint' | translate }}</span>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="{{ 'endPoint' | translate }}" formControlName="endPoint" autocomplete="off"
+              [errorStateMatcher]="matcher" required>
+            <mat-error>
+              <span
+                *ngIf="!roadForm.get('endPoint').valid && roadForm.get('endPoint').touched">{{ 'endPoint' | translate }}</span>
+            </mat-error>
+          </mat-form-field>
+          <div class="mt-3"></div>
+          <mat-hint id="" class="mt-3">{{ 'any_river_or_any_waterbody_between_the_two_point' | translate }}</mat-hint>
+          <mat-radio-group formControlName="isriverOrWaterbodynear">
+            <mat-radio-button class="mr-2" value="yes">{{ 'yes' | translate }}</mat-radio-button>
+            <mat-radio-button value="no">{{ 'no' | translate }}</mat-radio-button>
+          </mat-radio-group>
+          <mat-error>
+            <span
+              *ngIf="!roadForm.get('isriverOrWaterbodynear').valid && roadForm.get('isriverOrWaterbodynear').touched">{{ 'any_river_or_any_waterbody_between_the_two_point' | translate }}</span>
+          </mat-error>
+          <div class="mar-btm-11"></div>
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="{{ 'purpose' | translate }}" formControlName="purpose" autocomplete="off"
+              [errorStateMatcher]="matcher" required></textarea>
+            <mat-error>
+              <span
+                *ngIf="!roadForm.get('purpose').valid && roadForm.get('purpose').touched">{{ 'purpose' | translate }}</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <!-- <mat-card-actions> -->
+  <div class="pt-2 bottom-panel-height">
+    <button type="submit" [disabled]="!roadForm.valid" class="float-right" mat-flat-button color="primary"
+      (click)="saveRoad()">
+      <mat-icon>save</mat-icon> {{ "Save" | translate }}
+    </button>
+  </div>
+  <!-- </mat-card-actions> -->
+</mat-card>

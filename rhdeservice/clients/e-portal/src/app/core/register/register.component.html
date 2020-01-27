@@ -1,0 +1,188 @@
+<div class="app-body">
+    <main class="main d-flex align-items-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-12 mx-auto">
+            <div class="card mx-4">
+              <div class="card-body p-4">
+                <form [formGroup]="registerForm">
+                  <h1>{{'Register' | translate}}</h1>
+                  <mat-divider></mat-divider>
+                  <!-- <div class="input-group mb-3"> -->
+                    <div class="row">
+                      <div class="col-md-6 col-12">
+
+                        <!--Username-->
+                        <mat-form-field class="full-width"> 
+                          <input type="text" autocomplete="off" matInput placeholder="{{'Username' | translate}}" formControlName="userName"
+                          [errorStateMatcher]="matcher" required>
+                          <mat-error>
+                          <span *ngIf="!registerForm.get('userName').valid && registerForm.get('userName').touched">{{'Username is required' | translate}}</span>
+                          </mat-error>
+                        </mat-form-field>
+
+                        <!--password-->
+                        <mat-form-field class="full-width">
+                          <input autocomplete="off" type="password" matInput placeholder="{{'Password' | translate}}" formControlName="password"
+                            [errorStateMatcher]="matcher" required>
+                          <mat-error>
+                          <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched">{{'Password is required' | translate}}</span>
+                          </mat-error>
+                        </mat-form-field>
+
+                        <!--confirm password-->
+                          <mat-form-field class="full-width">
+                            <input autocomplete="off" type="password" matInput placeholder="{{'Confirm Password' | translate}}" formControlName="confirmPassword"
+                              [errorStateMatcher]="matcher" required>
+                            <mat-error>
+                            <span *ngIf="registerForm.get('confirmPassword').errors && 
+                            registerForm.get('confirmPassword').errors.ConfirmPassword">{{'password_does_not_match' | translate}}</span>
+                            </mat-error>
+                          </mat-form-field>
+
+                        <!--name in bangla-->
+                        <mat-form-field class="full-width">
+                          <input autocomplete="off" matInput placeholder="{{'Name in Bangla' | translate}}" formControlName="nameBn"
+                            [errorStateMatcher]="matcher" required>
+                          <mat-error>
+                          <span *ngIf="!registerForm.get('nameBn').valid && registerForm.get('nameBn').touched">{{ 'name_in_bangla_required'| translate }}</span>
+                          </mat-error>
+                        </mat-form-field>
+
+                        <!--name in english-->
+                        <mat-form-field class="full-width">
+                          <input autocomplete="off" matInput placeholder="{{'Name in English' | translate}}" formControlName="nameEn"
+                            [errorStateMatcher]="matcher" required>
+                          <mat-error>
+                          <span *ngIf="!registerForm.get('nameEn').valid && registerForm.get('nameEn').touched"> {{'name_in_english_required' | translate}} </span>
+                          </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="full-width">
+                          <input matInput placeholder="{{ 'designation' | translate }}" [matAutocomplete]="designation" 
+                                formControlName="designation"  required>
+                          <mat-autocomplete #designation="matAutocomplete" [displayWith]="displayfilterDesignation">
+                            <mat-option *ngFor="let designations of filteredDesignationList | async" [value]="designations">
+                              {{designations.designationBn}}
+                            </mat-option>
+                          </mat-autocomplete>
+                          <mat-error>
+                            <span
+                              *ngIf="!registerForm.get('designation').valid && registerForm.get('designation').touched">{{ 'Designation is required' | translate }}</span>
+                          </mat-error>
+                        </mat-form-field>
+
+                        <!--father name-->
+                        <mat-form-field class="full-width">
+                          <input autocomplete="off" matInput placeholder="{{'Father Name' | translate}}" formControlName="fatherName">
+                        </mat-form-field>
+
+                        <!--mother name-->
+                        <mat-form-field class="full-width">
+                            <input autocomplete="off" matInput placeholder="{{'Mother Name' | translate}}" formControlName="motherName">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6 col-12">
+                      <!--gender-->
+                      <div class="mt-3"></div>
+                      <mat-hint class="mt-3">{{'Gender' | translate}}</mat-hint>
+                      <mat-radio-group formControlName="gender">
+                        <mat-radio-button value="male" color="primary">{{ 'Male' | translate}}</mat-radio-button>
+                        <mat-radio-button value="female" color="primary">{{'Female' | translate}}</mat-radio-button>
+                      </mat-radio-group>
+
+                      <!-- <div class="mt-3"></div>
+                      <mat-hint class="mt-3">{{'Gender' | translate}}</mat-hint>
+                      <mat-radio-group formControlName="gender">
+                        <mat-radio-button [value]="radio.value" color="primary" *ngFor="let radio of radioFieldValueList">{{ radio.text }}</mat-radio-button>
+                      </mat-radio-group> -->
+                      <div class="mar-btm-11"></div>
+
+                      <!--date of birth-->
+                      <mat-form-field class="full-width">
+                          <input matInput [matDatepicker]="picker" (click)="picker.open()" autocomplete="off" placeholder="{{'Date of Birth' | translate}}" formControlName="dateOfBirth">
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+
+                      <!--email-->
+                      <mat-form-field class="full-width">
+                        <input autocomplete="off" type="email" matInput placeholder="{{'E-mail' | translate}}" formControlName="email"
+                          [errorStateMatcher] = "matcher">
+                      <mat-error>
+                        <span *ngIf="!registerForm.get('email').valid && registerForm.get('email').touched">{{'enter_valid_email' | translate}}</span>
+                      </mat-error>
+                      </mat-form-field>
+
+                      <!--mobile no-->
+                      <mat-form-field class="full-width">
+                          <input autocomplete="off" matInput placeholder="{{'Mobile no' | translate}}" formControlName="mobileNo" minlength="11" maxlength="11"
+                            [errorStateMatcher]="matcher" required>
+                            <mat-error>
+                              <span *ngIf="!registerForm.get('mobileNo').valid && registerForm.get('mobileNo').touched">{{'Mobile number is required' | translate}}</span>
+                            </mat-error>
+                      </mat-form-field>
+
+                      <!--nid-->
+                      <mat-form-field class="full-width">
+                        <input autocomplete="off" matInput placeholder="{{'National ID' | translate}}" formControlName="nidNo" minlength="10" maxlength="10"
+                          [errorStateMatcher]="matcher" required>
+                        <mat-error>
+                        <span *ngIf="!registerForm.get('nidNo').valid && registerForm.get('nidNo').touched">{{ 'NID is required' | translate}}</span>
+                        </mat-error>
+                      </mat-form-field>
+
+                      <!--present address-->
+                      <mat-form-field class="full-width">
+                        <textarea autocomplete="off" matInput placeholder="{{'Present Address' | translate}}" formControlName="presentAddress"
+                          [errorStateMatcher]="matcher"></textarea>
+                      </mat-form-field>
+                  
+                      <!--permanent address-->
+                      <mat-form-field class="full-width">
+                          <textarea autocomplete="off" matInput placeholder="{{'Permanent Address' | translate}}" formControlName="permanentAddress"
+                            [errorStateMatcher]="matcher"></textarea>
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                  <div class="float-right">
+                      <button mat-raised-button class="btn btn-dark" (click)="goBack()">{{ 'Back' | translate}}</button>
+                      <button [disabled]="!registerForm.valid" mat-raised-button color="primary" (click)="registerInfo()">{{'Save' | translate}}</button>                                       
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop fade in" id="exampleModalCenter" tabindex="-1" role="dialog" [ngStyle]="{'display': mdlSampleIsOpen ? 'block' : 'none', 'opacity': 1}" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #2B1D34; color: white;">
+          <h5 class="modal-title" id="exampleModalLongTitle">Confirmation Message</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" [routerLink]="['']" style="color: white;">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{'registration-message' | translate}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="mdlSampleIsOpen=false" [routerLink]="['']">Close</button>
+          <button type="button" class="btn btn-primary" [routerLink]="['']">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  
+
+  
+  

@@ -1,0 +1,2543 @@
+{
+    "01-security": [
+        {
+            "script": "01_00__authentication.sql",
+            "tables": [
+                {
+                    "tableName": "Role",
+                    "sortOrder": 1,
+                    "columns": [
+                        {
+                            "sortOrder": 1,
+                            "columnName": "oid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Surrogate primary key"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "roleId",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Role Id"
+                        },
+                        {
+                            "sortOrder": 3,
+                            "columnName": "roleDescription",
+                            "type": "text",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Description of Role"
+                        },
+                        {
+                            "sortOrder": 4,
+                            "columnName": "status",
+                            "type": "varchar",
+                            "precision": "32",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Role status"
+                        },
+                        {
+                            "sortOrder": 5,
+                            "columnName": "accessJson",
+                            "type": "text",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Access JSON array comes from ANP sheet"
+                        },
+                        {
+                            "sortOrder": 6,
+                            "columnName": "createdBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "System",
+                            "partition": "-",
+                            "notes": "Who created the role, default is System"
+                        },
+                        {
+                            "sortOrder": 7,
+                            "columnName": "createdOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "current_timestamp",
+                            "partition": "-",
+                            "notes": "When it was created"
+                        },
+                        {
+                            "sortOrder": 8,
+                            "columnName": "updatedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who last update the role"
+                        },
+                        {
+                            "sortOrder": 9,
+                            "columnName": "updatedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When it was updated"
+                        }
+                    ],
+                    "constraints": [
+                        {
+                            "columnName": "oid",
+                            "constraintType": "Primary",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 1
+                        },
+                        {
+                            "columnName": "roleId",
+                            "constraintType": "Unique",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 2
+                        },
+                        {
+                            "columnName": "status",
+                            "constraintType": "Check",
+                            "check": "Active, Inactive",
+                            "reference": "-",
+                            "sortOrder": 4
+                        }
+                    ],
+                    "data": [
+                        [
+                            "oid",
+                            "roleId",
+                            "roleDescription",
+                            "accessJson",
+                            "status"
+                        ],
+                        [
+                            "RHD.ADMIN",
+                            "RHD.ADMIN",
+                            "RHD E-Service Admin",
+                            "[{\"name\":\"Dashboard_TopMenu\",\"url\":\"/dashboard\",\"icon\":\"icon-speedometer\"}]",
+                            "Active"
+                        ]
+                    ],
+                    "partition": "-",
+                    "notes": "Roles used for users"
+                },
+                {
+                    "tableName": "Login",
+                    "sortOrder": 2,
+                    "columns": [
+                        {
+                            "sortOrder": 1,
+                            "columnName": "oid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Surrogate primary key"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "username",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Login Id"
+                        },
+                        {
+                            "sortOrder": 3,
+                            "columnName": "password",
+                            "type": "varchar",
+                            "precision": "256",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Password"
+                        },
+                        {
+                            "sortOrder": 4,
+                            "columnName": "nameEn",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "User name of User"
+                        },
+                        {
+                            "sortOrder": 5,
+                            "columnName": "nameBn",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "User name of User"
+                        },
+                        {
+                            "sortOrder": 6,
+                            "columnName": "email",
+                            "type": "varchar",
+                            "precision": "256",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Email id"
+                        },
+                        {
+                            "sortOrder": 7,
+                            "columnName": "mobileNo",
+                            "type": "varchar",
+                            "precision": "64",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Mobile no"
+                        },
+                        {
+                            "sortOrder": 8,
+                            "columnName": "menuJson",
+                            "type": "text",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Bank Id"
+                        },
+                        {
+                            "sortOrder": 9,
+                            "columnName": "userPhotoPath",
+                            "type": "varchar",
+                            "precision": "512",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "user Photo path"
+                        },
+                        {
+                            "sortOrder": 10,
+                            "columnName": "status",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who deactivated"
+                        },
+                        {
+                            "sortOrder": 11,
+                            "columnName": "resetRequired",
+                            "type": "varchar",
+                            "precision": "32",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Is password required"
+                        },
+                        {
+                            "sortOrder": 12,
+                            "columnName": "roleOid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Role oid"
+                        },
+                        {
+                            "sortOrder": 13,
+                            "columnName": "account_expired",
+                            "type": "varchar",
+                            "precision": "32",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "No",
+                            "partition": "-",
+                            "notes": ""
+                        },
+                        {
+                            "sortOrder": 14,
+                            "columnName": "credentials_expired",
+                            "type": "varchar",
+                            "precision": "32",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "No",
+                            "partition": "-",
+                            "notes": ""
+                        },
+                        {
+                            "sortOrder": 15,
+                            "columnName": "account_locked",
+                            "type": "varchar",
+                            "precision": "32",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "No",
+                            "partition": "-",
+                            "notes": ""
+                        },
+                        {
+                            "sortOrder": 16,
+                            "columnName": "traceId",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Trace Id of this record"
+                        },
+                        {
+                            "sortOrder": 17,
+                            "columnName": "currentVersion",
+                            "type": "varchar",
+                            "precision": "32",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "1",
+                            "partition": "-",
+                            "notes": "Count of how many times a record is being approved. Each count is treated as a new version. Ex: 1,2,......"
+                        },
+                        {
+                            "sortOrder": 18,
+                            "columnName": "editedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who (which login) last edited the record"
+                        },
+                        {
+                            "sortOrder": 19,
+                            "columnName": "editedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When the record was last edited"
+                        },
+                        {
+                            "sortOrder": 20,
+                            "columnName": "approvedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who (which login) approved the record"
+                        },
+                        {
+                            "sortOrder": 21,
+                            "columnName": "approvedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When the record was approved"
+                        },
+                        {
+                            "sortOrder": 22,
+                            "columnName": "remarkedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who (which login) remarked the record"
+                        },
+                        {
+                            "sortOrder": 23,
+                            "columnName": "remarkedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When the record was remarked"
+                        },
+                        {
+                            "sortOrder": 24,
+                            "columnName": "isApproverRemarks",
+                            "type": "varchar",
+                            "precision": "32",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Status if approver add any remarks. It will be Yes or No"
+                        },
+                        {
+                            "sortOrder": 25,
+                            "columnName": "approverRemarks",
+                            "type": "text",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Approver remarks for further action"
+                        },
+                        {
+                            "sortOrder": 26,
+                            "columnName": "isNewRecord",
+                            "type": "varchar",
+                            "precision": "32",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Record will show up new for a specific time. It will be Yes or No"
+                        },
+                        {
+                            "sortOrder": 27,
+                            "columnName": "createdBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "System",
+                            "partition": "-",
+                            "notes": "Who (which login) created the record"
+                        },
+                        {
+                            "sortOrder": 28,
+                            "columnName": "createdOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "current_timestamp",
+                            "partition": "-",
+                            "notes": "When the record was created"
+                        },
+                        {
+                            "sortOrder": 29,
+                            "columnName": "activatedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who (which login) activated the record"
+                        },
+                        {
+                            "sortOrder": 30,
+                            "columnName": "activatedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When the record was activated"
+                        },
+                        {
+                            "sortOrder": 31,
+                            "columnName": "closedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who (which login) closed the record"
+                        },
+                        {
+                            "sortOrder": 32,
+                            "columnName": "closedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When the record was closed"
+                        },
+                        {
+                            "sortOrder": 33,
+                            "columnName": "closingRemark",
+                            "type": "text",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Closing Remarks"
+                        },
+                        {
+                            "sortOrder": 34,
+                            "columnName": "deletedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who (which login) deleted the record"
+                        },
+                        {
+                            "sortOrder": 35,
+                            "columnName": "deletedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When the record was deleted"
+                        },
+                        {
+                            "sortOrder": 36,
+                            "columnName": "deletionRemark",
+                            "type": "text",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Delition remarks"
+                        }
+                    ],
+                    "constraints": [
+                        {
+                            "columnName": "oid",
+                            "constraintType": "Primary",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 1
+                        },
+                        {
+                            "columnName": "username",
+                            "constraintType": "Unique",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 2
+                        },
+                        {
+                            "columnName": "status",
+                            "constraintType": "Check",
+                            "check": "Active, Inactive",
+                            "reference": "-",
+                            "sortOrder": 10
+                        },
+                        {
+                            "columnName": "roleOid",
+                            "constraintType": "Foreign",
+                            "check": "-",
+                            "reference": "Role.oid",
+                            "sortOrder": 12
+                        },
+                        {
+                            "columnName": "account_expired",
+                            "constraintType": "Check",
+                            "check": "Yes, No",
+                            "reference": "-",
+                            "sortOrder": 13
+                        },
+                        {
+                            "columnName": "credentials_expired",
+                            "constraintType": "Check",
+                            "check": "Yes, No",
+                            "reference": "-",
+                            "sortOrder": 14
+                        },
+                        {
+                            "columnName": "account_locked",
+                            "constraintType": "Check",
+                            "check": "Yes, No",
+                            "reference": "-",
+                            "sortOrder": 15
+                        },
+                        {
+                            "columnName": "isApproverRemarks",
+                            "constraintType": "Check",
+                            "check": "Yes, No",
+                            "reference": "-",
+                            "sortOrder": 24
+                        },
+                        {
+                            "columnName": "isNewRecord",
+                            "constraintType": "Check",
+                            "check": "Yes, No",
+                            "reference": "-",
+                            "sortOrder": 26
+                        }
+                    ],
+                    "data": [
+                        [
+                            "oid",
+                            "username",
+                            "password",
+                            "nameEn",
+                            "nameBn",
+                            "email",
+                            "mobileNo",
+                            "status",
+                            "menuJson",
+                            "roleOid",
+                            "currentVersion",
+                            "resetRequired"
+                        ],
+                        [
+                            "LN00000000",
+                            "tanim",
+                            "4cf6829aa93728e8f3c97df913fb1bfa95fe5810e2933a05943f8312a98d9cf2",
+                            "Kamruzzaman Tanim",
+                            "\u0995\u09be\u09ae\u09b0\u09c1\u099c\u09cd\u099c\u09be\u09ae\u09be\u09a8 \u09a4\u09be\u09a8\u09bf\u09ae",
+                            "ktanim@gmail.com",
+                            "01721060879",
+                            "Active",
+                            "[{\"topmenuid\":\"UserManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-user-admin\",\"text\":\"All_User\"}]},{\"topmenuid\":\"IdraManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-idra-staff-admin\",\"text\":\"All_User\"}]},{\"topmenuid\":\"InsuranceManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-ins-staff-admin\",\"text\":\"All_User\"}]}]",
+                            "RHD.ADMIN",
+                            "1",
+                            "No"
+                        ],
+                        [
+                            "LN00000001",
+                            "mashud",
+                            "$2a$10$Nj9AB/ffFQX/FEj3KgdmLe9vu6NlVMfBrG6/bsq9zD0eUAlMMJ6o.",
+                            "Mashud Karim",
+                            "\u09ae\u09be\u09b8\u0989\u09a6 \u0995\u09b0\u09bf\u09ae",
+                            "mashud.karim85@gmail.com",
+                            "01717518150",
+                            "Active",
+                            "[{\"topmenuid\":\"UserManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-user-admin\",\"text\":\"All_User\"}]},{\"topmenuid\":\"IdraManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-idra-staff-admin\",\"text\":\"All_User\"}]},{\"topmenuid\":\"InsuranceManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-ins-staff-admin\",\"text\":\"All_User\"}]}]",
+                            "RHD.ADMIN",
+                            "1",
+                            "No"
+                        ],
+                        [
+                            "LN00000002",
+                            "pasha",
+                            "$2a$10$Nj9AB/ffFQX/FEj3KgdmLe9vu6NlVMfBrG6/bsq9zD0eUAlMMJ6o.",
+                            "Pasha",
+                            "\u09ae\u09be\u09b9\u09ac\u09c1\u09ac \u0986\u09b2 \u0987\u09b8\u09b2\u09be\u09ae",
+                            "mahabub13d1995@gmail.com",
+                            "01681416002",
+                            "Active",
+                            "[{\"topmenuid\":\"UserManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-user-admin\",\"text\":\"All_User\"}]},{\"topmenuid\":\"IdraManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-idra-staff-admin\",\"text\":\"All_User\"}]},{\"topmenuid\":\"InsuranceManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-ins-staff-admin\",\"text\":\"All_User\"}]}]",
+                            "RHD.ADMIN",
+                            "1",
+                            "No"
+                        ],
+                        [
+                            "LN00000003",
+                            "shajir",
+                            "$2a$10$Nj9AB/ffFQX/FEj3KgdmLe9vu6NlVMfBrG6/bsq9zD0eUAlMMJ6o.",
+                            "Shajir",
+                            "\u09b8\u09be\u099c\u09bf\u09b0 \u09b9\u09be\u09af\u09bc\u09a6\u09be\u09b0",
+                            "shajir.haiddr@cellosco.pe",
+                            "01681470970",
+                            "Active",
+                            "[{\"topmenuid\":\"UserManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-user-admin\",\"text\":\"All_User\"}]},{\"topmenuid\":\"IdraManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-idra-staff-admin\",\"text\":\"All_User\"}]},{\"topmenuid\":\"InsuranceManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-ins-staff-admin\",\"text\":\"All_User\"}]}]",
+                            "RHD.ADMIN",
+                            "1",
+                            "No"
+                        ],
+                        [
+                            "LN00000004",
+                            "muhsin",
+                            "$2a$10$Nj9AB/ffFQX/FEj3KgdmLe9vu6NlVMfBrG6/bsq9zD0eUAlMMJ6o.",
+                            "Muhsin",
+                            "\u09ae\u09c1\u09b9\u09b8\u09bf\u09a8",
+                            "muhsinur.rahman.chow@spectrum-bd.com",
+                            "01746953387",
+                            "Active",
+                            "[{\"topmenuid\":\"UserManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-user-admin\",\"text\":\"All_User\"}]},{\"topmenuid\":\"IdraManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-idra-staff-admin\",\"text\":\"All_User\"}]},{\"topmenuid\":\"InsuranceManagement_TopMenu\",\"leftmenuids\":[{\"url\":\"all-ins-staff-admin\",\"text\":\"All_User\"}]}]",
+                            "RHD.ADMIN",
+                            "1",
+                            "No"
+                        ]
+                    ],
+                    "partition": "-",
+                    "notes": "This table to be used to store user Login information."
+                },
+                {
+                    "tableName": "Registration",
+                    "sortOrder": 3,
+                    "columns": [
+                        {
+                            "sortOrder": 1,
+                            "columnName": "oid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Surrogate primary key"
+                        },
+                        {
+                            "sortOrder": 3,
+                            "columnName": "userName",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Login Id"
+                        },
+                        {
+                            "sortOrder": 4,
+                            "columnName": "password",
+                            "type": "varchar",
+                            "precision": "256",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Password"
+                        },
+                        {
+                            "sortOrder": 5,
+                            "columnName": "nameBn",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "User name of User"
+                        },
+                        {
+                            "sortOrder": 6,
+                            "columnName": "nameEn",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "User name of User"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "designation",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Designation of user"
+                        },
+                        {
+                            "sortOrder": 7,
+                            "columnName": "fatherName",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Father's name"
+                        },
+                        {
+                            "sortOrder": 8,
+                            "columnName": "motherName",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Mother's name"
+                        },
+                        {
+                            "sortOrder": 9,
+                            "columnName": "gender",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Gender"
+                        },
+                        {
+                            "sortOrder": 10,
+                            "columnName": "dateOfBirth",
+                            "type": "date",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Date of birth of user"
+                        },
+                        {
+                            "sortOrder": 11,
+                            "columnName": "email",
+                            "type": "varchar",
+                            "precision": "256",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Email id"
+                        },
+                        {
+                            "sortOrder": 12,
+                            "columnName": "mobileNo",
+                            "type": "varchar",
+                            "precision": "64",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Mobile no"
+                        },
+                        {
+                            "sortOrder": 13,
+                            "columnName": "nidNo",
+                            "type": "varchar",
+                            "precision": "64",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "National Id card no"
+                        },
+                        {
+                            "sortOrder": 14,
+                            "columnName": "presentAddress",
+                            "type": "varchar",
+                            "precision": "256",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Present Address of user"
+                        },
+                        {
+                            "sortOrder": 15,
+                            "columnName": "permanentAddress",
+                            "type": "varchar",
+                            "precision": "256",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Permanent Address of user"
+                        },
+                        {
+                            "sortOrder": 16,
+                            "columnName": "status",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "User registration status"
+                        },
+                        {
+                            "sortOrder": 17,
+                            "columnName": "comment",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Give comment on approval or received purpose"
+                        },
+                        {
+                            "sortOrder": 18,
+                            "columnName": "receivedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Received by"
+                        },
+                        {
+                            "sortOrder": 19,
+                            "columnName": "createdBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "System",
+                            "partition": "-",
+                            "notes": "Who submited the registration data, default is System"
+                        },
+                        {
+                            "sortOrder": 20,
+                            "columnName": "createdOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "current_timestamp",
+                            "partition": "-",
+                            "notes": "When it was created"
+                        },
+                        {
+                            "sortOrder": 21,
+                            "columnName": "updatedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who last update the registration data"
+                        },
+                        {
+                            "sortOrder": 22,
+                            "columnName": "updatedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When it was updated"
+                        }
+                    ],
+                    "constraints": [
+                        {
+                            "columnName": "oid",
+                            "constraintType": "Primary",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 1
+                        },
+                        {
+                            "columnName": "userName",
+                            "constraintType": "Unique",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 3
+                        },
+                        {
+                            "columnName": "status",
+                            "constraintType": "Check",
+                            "check": "Submitted, Approved",
+                            "reference": "-",
+                            "sortOrder": 16
+                        }
+                    ],
+                    "data": [],
+                    "partition": "-",
+                    "notes": "This table to be used to store user Registration information."
+                }
+            ]
+        }
+    ],
+    "02-master": [
+        {
+            "script": "02_00__master.sql",
+            "tables": [
+                {
+                    "tableName": "Designation",
+                    "sortOrder": 4,
+                    "columns": [
+                        {
+                            "sortOrder": 1,
+                            "columnName": "oid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Surrogate primary key"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "designationBn",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Designation name in bangla"
+                        },
+                        {
+                            "sortOrder": 3,
+                            "columnName": "designationEn",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Designation name in endlish"
+                        },
+                        {
+                            "sortOrder": 4,
+                            "columnName": "createdBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "System",
+                            "partition": "-",
+                            "notes": "Who inserted designation into the System"
+                        },
+                        {
+                            "sortOrder": 5,
+                            "columnName": "createdOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "current_timestamp",
+                            "partition": "-",
+                            "notes": "When it was created"
+                        },
+                        {
+                            "sortOrder": 6,
+                            "columnName": "updatedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who last update the designation"
+                        },
+                        {
+                            "sortOrder": 7,
+                            "columnName": "updatedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When it was updated"
+                        }
+                    ],
+                    "constraints": [
+                        {
+                            "columnName": "oid",
+                            "constraintType": "Primary",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 1
+                        },
+                        {
+                            "columnName": "designationBn",
+                            "constraintType": "Unique",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 2
+                        },
+                        {
+                            "columnName": "designationEn",
+                            "constraintType": "Unique",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 3
+                        }
+                    ],
+                    "data": [
+                        [
+                            "oid",
+                            "designationBn",
+                            "designationEn"
+                        ],
+                        [
+                            "DEG01",
+                            "\u09b8\u0982\u0997\u09a0\u09a8",
+                            "Organization"
+                        ],
+                        [
+                            "DEG02",
+                            "\u09ad\u09bf\u0986\u0987\u09aa\u09bf",
+                            "VIP"
+                        ],
+                        [
+                            "DEG03",
+                            "\u09b8\u0982\u09b8\u09a6 \u09b8\u09a6\u09b8\u09cd\u09af",
+                            "Member of Parliament"
+                        ],
+                        [
+                            "DEG04",
+                            "\u09aa\u09cd\u09b0\u09a4\u09bf\u09ae\u09a8\u09cd\u09a4\u09cd\u09b0\u09c0",
+                            "Minister of State"
+                        ],
+                        [
+                            "DEG05",
+                            "\u09b8\u099a\u09bf\u09ac (\u09b8\u09a1\u09bc\u0995 \u09ae\u09a8\u09cd\u09a4\u09cd\u09b0\u09a8\u09be\u09b2\u09df)",
+                            "Secretary of Roads Ministry"
+                        ],
+                        [
+                            "DEG06",
+                            "\u09aa\u09cd\u09b0\u09a7\u09be\u09a8 \u09aa\u09cd\u09b0\u0995\u09cc\u09b6\u09b2\u09c0 (\u09b8\u09a1\u09bc\u0995 \u09ae\u09a8\u09cd\u09a4\u09cd\u09b0\u09a8\u09be\u09b2\u09df)",
+                            "Chief Engineer of RHD"
+                        ],
+                        [
+                            "DEG07",
+                            "\u09aa\u09cd\u09b0\u09a7\u09be\u09a8 \u09aa\u09cd\u09b0\u0995\u09cc\u09b6\u09b2\u09c0 (\u0985\u09a4\u09bf\u09b0\u09bf\u0995\u09cd\u09a4)",
+                            "Additional Chief Engineer"
+                        ],
+                        [
+                            "DEG08",
+                            "\u09a8\u09bf\u09b0\u09cd\u09ac\u09be\u09b9\u09c0 \u09aa\u09cd\u09b0\u0995\u09cc\u09b6\u09b2\u09c0",
+                            "Executive Engineer"
+                        ],
+                        [
+                            "DEG09",
+                            "\u09b8\u09c1\u09aa\u09be\u09b0\u09bf\u09a8\u099f\u09c7\u09a8\u09a1\u09c7\u09a8\u09cd\u099f \u0987\u099e\u09cd\u099c\u09bf\u09a8\u09bf\u09af\u09bc\u09be\u09b0",
+                            "Superintendent Engineer"
+                        ],
+                        [
+                            "DEG10",
+                            "\u0995\u09ae\u09cd\u09aa\u09bf\u0989\u099f\u09be\u09b0 \u0985\u09aa\u09be\u09b0\u09c7\u099f\u09b0",
+                            "Computer Operator"
+                        ],
+                        [
+                            "DEG11",
+                            "\u0985\u09a8\u09cd\u09af\u09be\u09a8\u09cd\u09af (\u09b8\u09b0\u0995\u09be\u09b0\u09c0 \u09ac\u09cd\u09af\u0995\u09cd\u09a4\u09bf)",
+                            "Other Official Person"
+                        ],
+                        [
+                            "DEG12",
+                            "\u09b8\u09bf\u09b8\u09cd\u099f\u09c7\u09ae \u098f\u09a1\u09ae\u09bf\u09a8\u09bf\u09b8\u09cd\u099f\u09cd\u09b0\u09c7\u099f\u09b0",
+                            "System Administrator"
+                        ],
+                        [
+                            "DEG13",
+                            "\u09b8\u099a\u09bf\u09ac (\u09aa\u09b0\u09bf\u09ac\u09c7\u09b6 \u09ae\u09a8\u09cd\u09a4\u09cd\u09b0\u09a8\u09be\u09b2\u09df)",
+                            "Secretary of Environment Ministry"
+                        ],
+                        [
+                            "DEG14",
+                            "\u09b8\u099a\u09bf\u09ac (\u0985\u09a8\u09cd\u09af\u09be\u09a8\u09cd\u09af \u09ae\u09a8\u09cd\u09a4\u09cd\u09b0\u09a8\u09be\u09b2\u09df)",
+                            "Secretary of Others Ministry"
+                        ],
+                        [
+                            "DEG15",
+                            "\u09aa\u09cd\u09b0\u09a7\u09be\u09a8\u09ae\u09a8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b0 \u0995\u09be\u09b0\u09cd\u09af\u09be\u09b2\u09af\u09bc",
+                            "Prime Minister Office"
+                        ],
+                        [
+                            "DEG16",
+                            "\u09a0\u09bf\u0995\u09be\u09a6\u09be\u09b0",
+                            "Work Contractor"
+                        ]
+                    ],
+                    "partition": "-",
+                    "notes": "This table to be used to store user Designation list."
+                },
+                {
+                    "tableName": "Division",
+                    "sortOrder": 5,
+                    "columns": [
+                        {
+                            "sortOrder": 1,
+                            "columnName": "oid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Surrogate primary key"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "divisionNameBn",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Divison Name in Bangla"
+                        },
+                        {
+                            "sortOrder": 3,
+                            "columnName": "divisionNameEn",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Divison Name in English"
+                        },
+                        {
+                            "sortOrder": 4,
+                            "columnName": "createdBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "System",
+                            "partition": "-",
+                            "notes": "Who created the division, default is System"
+                        },
+                        {
+                            "sortOrder": 5,
+                            "columnName": "createdOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "current_timestamp",
+                            "partition": "-",
+                            "notes": "When it was created"
+                        },
+                        {
+                            "sortOrder": 6,
+                            "columnName": "updatedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who last update the division"
+                        },
+                        {
+                            "sortOrder": 7,
+                            "columnName": "updatedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When it was updated"
+                        }
+                    ],
+                    "constraints": [
+                        {
+                            "columnName": "oid",
+                            "constraintType": "Primary",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 1
+                        },
+                        {
+                            "columnName": "divisionNameBn",
+                            "constraintType": "Unique",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 2
+                        },
+                        {
+                            "columnName": "divisionNameEn",
+                            "constraintType": "Unique",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 3
+                        }
+                    ],
+                    "data": [
+                        [
+                            "oid",
+                            "divisionNameEn",
+                            "divisionNameBn"
+                        ],
+                        [
+                            "DV01",
+                            "Dhaka",
+                            "\u09a2\u09be\u0995\u09be"
+                        ],
+                        [
+                            "DV02",
+                            "Chattogram",
+                            "\u099a\u099f\u09cd\u099f\u0997\u09cd\u09b0\u09be\u09ae"
+                        ],
+                        [
+                            "DV03",
+                            "Rajsahi",
+                            "\u09b0\u09be\u099c\u09b6\u09be\u09b9\u09c0"
+                        ],
+                        [
+                            "DV04",
+                            "Khulna",
+                            "\u0996\u09c1\u09b2\u09a8\u09be"
+                        ],
+                        [
+                            "DV05",
+                            "Sylhet",
+                            "\u09b8\u09bf\u09b2\u09c7\u099f"
+                        ],
+                        [
+                            "DV06",
+                            "Barishal",
+                            "\u09ac\u09b0\u09bf\u09b6\u09be\u09b2"
+                        ],
+                        [
+                            "DV07",
+                            "Mymensingh",
+                            "\u09ae\u09df\u09ae\u09a8\u09b8\u09bf\u0982\u09b9"
+                        ],
+                        [
+                            "DV08",
+                            "Rangpur",
+                            "\u09b0\u0982\u09aa\u09c1\u09b0"
+                        ]
+                    ],
+                    "partition": "-",
+                    "notes": "This table to be used to store user Division list."
+                },
+                {
+                    "tableName": "District",
+                    "sortOrder": 6,
+                    "columns": [
+                        {
+                            "sortOrder": 1,
+                            "columnName": "oid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Surrogate primary key"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "districtNameBn",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "District Name in Bangla"
+                        },
+                        {
+                            "sortOrder": 3,
+                            "columnName": "districtNameEn",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "District Name in English"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "divisionOid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Divison OId"
+                        },
+                        {
+                            "sortOrder": 4,
+                            "columnName": "createdBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "System",
+                            "partition": "-",
+                            "notes": "Who created the district, default is System"
+                        },
+                        {
+                            "sortOrder": 5,
+                            "columnName": "createdOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "current_timestamp",
+                            "partition": "-",
+                            "notes": "When it was created"
+                        },
+                        {
+                            "sortOrder": 6,
+                            "columnName": "updatedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who last update the district"
+                        },
+                        {
+                            "sortOrder": 7,
+                            "columnName": "updatedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When it was updated"
+                        }
+                    ],
+                    "constraints": [
+                        {
+                            "columnName": "oid",
+                            "constraintType": "Primary",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 1
+                        },
+                        {
+                            "columnName": "districtNameBn",
+                            "constraintType": "Unique",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 2
+                        },
+                        {
+                            "columnName": "districtNameEn",
+                            "constraintType": "Unique",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 3
+                        },
+                        {
+                            "columnName": "divisionOid",
+                            "constraintType": "Foreign",
+                            "check": "-",
+                            "reference": "Division.oid",
+                            "sortOrder": 2
+                        }
+                    ],
+                    "data": [
+                        [
+                            "oid",
+                            "districtNameEn",
+                            "districtNameBn",
+                            "divisionOid"
+                        ],
+                        [
+                            "DS01",
+                            "Dhaka",
+                            "\u09a2\u09be\u0995\u09be",
+                            "DV01"
+                        ],
+                        [
+                            "DS02",
+                            "Narayanganj",
+                            "\u09a8\u09be\u09b0\u09be\u09df\u09a8\u0997\u09a8\u099c",
+                            "DV01"
+                        ],
+                        [
+                            "DS03",
+                            "Jamalpur",
+                            "\u099c\u09be\u09ae\u09be\u09b2\u09aa\u09c1\u09b0",
+                            "DV01"
+                        ],
+                        [
+                            "DS04",
+                            "Comilla",
+                            "\u0995\u09c1\u09ae\u09bf\u09b2\u09b2\u09be",
+                            "DV02"
+                        ],
+                        [
+                            "DS05",
+                            "Munsiganj",
+                            "\u09ae\u09c1\u09a8\u09b6\u09bf",
+                            "DV01"
+                        ],
+                        [
+                            "DS06",
+                            "Norsingdi",
+                            "\u09a8\u09be\u09b0\u09be\u09b8\u09bf\u0982\u09a6\u09c0",
+                            "DV01"
+                        ],
+                        [
+                            "DS07",
+                            "Chattogram",
+                            "\u099a\u099f\u09cd\u099f\u0997\u09cd\u09b0\u09be\u09ae",
+                            "DV02"
+                        ],
+                        [
+                            "DS08",
+                            "Rajsahi",
+                            "\u09b0\u09be\u099c\u09b6\u09be\u09b9\u09c0",
+                            "DV03"
+                        ],
+                        [
+                            "DS09",
+                            "Khulna",
+                            "\u0996\u09c1\u09b2\u09a8\u09be",
+                            "DV04"
+                        ],
+                        [
+                            "DS10",
+                            "Sylhet",
+                            "\u09b8\u09bf\u09b2\u09c7\u099f",
+                            "DV05"
+                        ],
+                        [
+                            "DS11",
+                            "Barishal",
+                            "\u09ac\u09b0\u09bf\u09b6\u09be\u09b2",
+                            "DV06"
+                        ],
+                        [
+                            "DS12",
+                            "Mymensingh",
+                            "\u09ae\u09df\u09ae\u09a8\u09b8\u09bf\u0982\u09b9",
+                            "DV07"
+                        ],
+                        [
+                            "DS13",
+                            "Rangpur",
+                            "\u09b0\u0982\u09aa\u09c1\u09b0",
+                            "DV08"
+                        ]
+                    ],
+                    "partition": "-",
+                    "notes": "This table to be used to store user District list."
+                },
+                {
+                    "tableName": "Upazilla",
+                    "sortOrder": 7,
+                    "columns": [
+                        {
+                            "sortOrder": 1,
+                            "columnName": "oid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Surrogate primary key"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "upazillaNameBn",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Upazilla Name in Bangla"
+                        },
+                        {
+                            "sortOrder": 3,
+                            "columnName": "upazillaNameEn",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Upazilla Name in English"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "districtOid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "District OId"
+                        },
+                        {
+                            "sortOrder": 4,
+                            "columnName": "createdBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "System",
+                            "partition": "-",
+                            "notes": "Who created the district, default is System"
+                        },
+                        {
+                            "sortOrder": 5,
+                            "columnName": "createdOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "current_timestamp",
+                            "partition": "-",
+                            "notes": "When it was created"
+                        },
+                        {
+                            "sortOrder": 6,
+                            "columnName": "updatedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who last update the district"
+                        },
+                        {
+                            "sortOrder": 7,
+                            "columnName": "updatedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When it was updated"
+                        }
+                    ],
+                    "constraints": [
+                        {
+                            "columnName": "oid",
+                            "constraintType": "Primary",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 1
+                        },
+                        {
+                            "columnName": "upazillaNameBn",
+                            "constraintType": "Unique",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 2
+                        },
+                        {
+                            "columnName": "upazillaNameEn",
+                            "constraintType": "Unique",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 3
+                        },
+                        {
+                            "columnName": "districtOid",
+                            "constraintType": "Foreign",
+                            "check": "-",
+                            "reference": "District.oid",
+                            "sortOrder": 2
+                        }
+                    ],
+                    "data": [
+                        [
+                            "oid",
+                            "upazillaNameEn",
+                            "upazillaNameBn",
+                            "districtOid"
+                        ],
+                        [
+                            "UZ01",
+                            "Dhaka",
+                            "\u09a2\u09be\u0995\u09be",
+                            "DS01"
+                        ],
+                        [
+                            "UZ02",
+                            "Motijheel",
+                            "\u09ae\u09a4\u09bf\u099d\u09bf\u09b2",
+                            "DS01"
+                        ],
+                        [
+                            "UZ03",
+                            "Rampura",
+                            "\u09b0\u09be\u09ae\u09aa\u09c1\u09b0\u09be",
+                            "DS01"
+                        ],
+                        [
+                            "UZ04",
+                            "Uttara",
+                            "\u0989\u09a4\u09cd\u09a4\u09b0\u09be",
+                            "DS01"
+                        ]
+                    ],
+                    "partition": "-",
+                    "notes": "This table to be used to store user District list."
+                }
+            ]
+        },
+        {
+            "script": "02_01__master.sql",
+            "tables": [
+                {
+                    "tableName": "Process",
+                    "sortOrder": 8,
+                    "columns": [
+                        {
+                            "sortOrder": 1,
+                            "columnName": "oid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Surrogate primary key"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "processName",
+                            "type": "varchar",
+                            "precision": "256",
+                            "scale": "",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "",
+                            "notes": "name of the process"
+                        },
+                        {
+                            "sortOrder": 3,
+                            "columnName": "createdBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "System",
+                            "partition": "-",
+                            "notes": "who created the process"
+                        },
+                        {
+                            "sortOrder": 4,
+                            "columnName": "createdOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "current_timestamp",
+                            "partition": "-",
+                            "notes": "When it was created"
+                        },
+                        {
+                            "sortOrder": 5,
+                            "columnName": "updatedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who last update the process"
+                        },
+                        {
+                            "sortOrder": 6,
+                            "columnName": "updatedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When it was updated"
+                        }
+                    ],
+                    "constraints": [
+                        {
+                            "columnName": "oid",
+                            "constraintType": "Primary",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 1
+                        }
+                    ],
+                    "data": [],
+                    "partition": "-",
+                    "notes": "This table to be used to store process for features"
+                },
+                {
+                    "tableName": "Step",
+                    "sortOrder": 9,
+                    "columns": [
+                        {
+                            "sortOrder": 1,
+                            "columnName": "oid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Surrogate primary key"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "processOid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Process oid"
+                        },
+                        {
+                            "sortOrder": 3,
+                            "columnName": "stepName",
+                            "type": "varchar",
+                            "precision": "256",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "name of the step"
+                        },
+                        {
+                            "sortOrder": 4,
+                            "columnName": "sortOrder",
+                            "type": "numeric",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "order of the step"
+                        },
+                        {
+                            "sortOrder": 5,
+                            "columnName": "formComponentID",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "ID of the from compoent"
+                        },
+                        {
+                            "sortOrder": 6,
+                            "columnName": "forward",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "can this step forward"
+                        },
+                        {
+                            "sortOrder": 7,
+                            "columnName": "backward",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": ""
+                        },
+                        {
+                            "sortOrder": 8,
+                            "columnName": "approve",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": ""
+                        },
+                        {
+                            "sortOrder": 9,
+                            "columnName": "nextStepOid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": ""
+                        },
+                        {
+                            "sortOrder": 10,
+                            "columnName": "status",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "status of the step"
+                        },
+                        {
+                            "sortOrder": 11,
+                            "columnName": "createdBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "System",
+                            "partition": "-",
+                            "notes": "who created the process"
+                        },
+                        {
+                            "sortOrder": 12,
+                            "columnName": "createdOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "current_timestamp",
+                            "partition": "-",
+                            "notes": "When it was created"
+                        },
+                        {
+                            "sortOrder": 13,
+                            "columnName": "updatedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who last update the process"
+                        },
+                        {
+                            "sortOrder": 14,
+                            "columnName": "updatedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When it was updated"
+                        }
+                    ],
+                    "constraints": [
+                        {
+                            "columnName": "oid",
+                            "constraintType": "Primary",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 1
+                        },
+                        {
+                            "columnName": "processOid",
+                            "constraintType": "Foreign",
+                            "check": "-",
+                            "reference": "Process.oid",
+                            "sortOrder": 2
+                        }
+                    ],
+                    "data": [],
+                    "partition": "-",
+                    "notes": "This table to be used to store step for process"
+                },
+                {
+                    "tableName": "Login_Step_Mapping",
+                    "sortOrder": 10,
+                    "columns": [
+                        {
+                            "sortOrder": 1,
+                            "columnName": "oid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "This table to be used to mpping step with user"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "loginId",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "This table to be used to mpping step with user"
+                        },
+                        {
+                            "sortOrder": 3,
+                            "columnName": "stepOid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "This table to be used to mpping step with user"
+                        },
+                        {
+                            "sortOrder": 4,
+                            "columnName": "createdBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "System",
+                            "partition": "-",
+                            "notes": "Who created the data, defaut is System"
+                        },
+                        {
+                            "sortOrder": 5,
+                            "columnName": "createdOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "current_timestamp",
+                            "partition": "-",
+                            "notes": "When it was created"
+                        },
+                        {
+                            "sortOrder": 6,
+                            "columnName": "updatedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who last update the data"
+                        },
+                        {
+                            "sortOrder": 7,
+                            "columnName": "updatedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When it was updated"
+                        }
+                    ],
+                    "constraints": [
+                        {
+                            "columnName": "oid",
+                            "constraintType": "Primary",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 1
+                        },
+                        {
+                            "columnName": "stepOid",
+                            "constraintType": "Foreign",
+                            "check": "-",
+                            "reference": "Step.oid",
+                            "sortOrder": 3
+                        }
+                    ],
+                    "data": [],
+                    "partition": "-",
+                    "notes": "This table to be used to mpping step with user"
+                }
+            ]
+        }
+    ],
+    "03-requisition": [
+        {
+            "script": "03_02__requisition.sql",
+            "tables": [
+                {
+                    "tableName": "Road_Requisition",
+                    "sortOrder": 11,
+                    "columns": [
+                        {
+                            "sortOrder": 1,
+                            "columnName": "oid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Surrogate primary key"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "divisionOid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Divison oid"
+                        },
+                        {
+                            "sortOrder": 3,
+                            "columnName": "districtOid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "District oid"
+                        },
+                        {
+                            "sortOrder": 4,
+                            "columnName": "upazillaOid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Upazilla.oid"
+                        },
+                        {
+                            "sortOrder": 5,
+                            "columnName": "postalCode",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "postal code"
+                        },
+                        {
+                            "sortOrder": 6,
+                            "columnName": "location",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "location - village or union"
+                        },
+                        {
+                            "sortOrder": 7,
+                            "columnName": "startPoint",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "start point"
+                        },
+                        {
+                            "sortOrder": 8,
+                            "columnName": "endPoint",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "end point"
+                        },
+                        {
+                            "sortOrder": 9,
+                            "columnName": "isriverOrWaterbodynear",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "water body name"
+                        },
+                        {
+                            "sortOrder": 10,
+                            "columnName": "purpose",
+                            "type": "text",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "puropose of the road"
+                        },
+                        {
+                            "sortOrder": 11,
+                            "columnName": "status",
+                            "type": "varchar",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "puropose of the road"
+                        },
+                        {
+                            "sortOrder": 12,
+                            "columnName": "nextStep",
+                            "type": "varchar",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "In which step the process is"
+                        },
+                        {
+                            "sortOrder": 13,
+                            "columnName": "comment",
+                            "type": "text",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Comment for the requisition"
+                        },
+                        {
+                            "sortOrder": 14,
+                            "columnName": "createdBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "System",
+                            "partition": "-",
+                            "notes": "Who created the district, default is System"
+                        },
+                        {
+                            "sortOrder": 15,
+                            "columnName": "createdOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "current_timestamp",
+                            "partition": "-",
+                            "notes": "When it was created"
+                        },
+                        {
+                            "sortOrder": 16,
+                            "columnName": "updatedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Who last update the district"
+                        },
+                        {
+                            "sortOrder": 17,
+                            "columnName": "updatedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "When it was updated"
+                        }
+                    ],
+                    "constraints": [
+                        {
+                            "columnName": "oid",
+                            "constraintType": "Primary",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 1
+                        },
+                        {
+                            "columnName": "divisionOid",
+                            "constraintType": "Foreign",
+                            "check": "-",
+                            "reference": "Division.oid",
+                            "sortOrder": 2
+                        },
+                        {
+                            "columnName": "districtOid",
+                            "constraintType": "Foreign",
+                            "check": "-",
+                            "reference": "District.oid",
+                            "sortOrder": 3
+                        },
+                        {
+                            "columnName": "upazillaOid",
+                            "constraintType": "Foreign",
+                            "check": "-",
+                            "reference": "Upazilla.oid",
+                            "sortOrder": 4
+                        }
+                    ],
+                    "data": [],
+                    "partition": "-",
+                    "notes": "This table to be used to store road data"
+                },
+                {
+                    "tableName": "Road_Requisition_Comment",
+                    "sortOrder": 12,
+                    "columns": [
+                        {
+                            "sortOrder": 1,
+                            "columnName": "oid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Surrogate primary key"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "roadRequisitionOid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Requisition oid to tag Requisition with Requisition comment"
+                        },
+                        {
+                            "sortOrder": 3,
+                            "columnName": "comment",
+                            "type": "text",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "comment of requisition"
+                        },
+                        {
+                            "sortOrder": 4,
+                            "columnName": "stepOid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "",
+                            "notes": "Step oid to tag Step with Requisition comment"
+                        },
+                        {
+                            "sortOrder": 5,
+                            "columnName": "createdBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "System",
+                            "partition": "-",
+                            "notes": "who created the record, default is System"
+                        },
+                        {
+                            "sortOrder": 6,
+                            "columnName": "createdOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "current_timestamp",
+                            "partition": "-",
+                            "notes": "when the record was created"
+                        },
+                        {
+                            "sortOrder": 7,
+                            "columnName": "updatedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "who last updated the record"
+                        },
+                        {
+                            "sortOrder": 8,
+                            "columnName": "updatedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "when the record was last updated"
+                        }
+                    ],
+                    "constraints": [
+                        {
+                            "columnName": "oid",
+                            "constraintType": "Primary",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 1
+                        },
+                        {
+                            "columnName": "roadRequisitionOid",
+                            "constraintType": "Foreign",
+                            "check": "-",
+                            "reference": "Road_Requisition.oid",
+                            "sortOrder": 2
+                        },
+                        {
+                            "columnName": "stepOid",
+                            "constraintType": "Foreign",
+                            "check": "-",
+                            "reference": "Step.oid",
+                            "sortOrder": 4
+                        }
+                    ],
+                    "data": [],
+                    "partition": "-",
+                    "notes": "Requisition Comment Information"
+                },
+                {
+                    "tableName": "Road_Requisition_State",
+                    "sortOrder": 13,
+                    "columns": [
+                        {
+                            "sortOrder": 1,
+                            "columnName": "oid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Surrogate primary key"
+                        },
+                        {
+                            "sortOrder": 2,
+                            "columnName": "roadRequisitionOid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "Requisition oid to tag Requisition with Requisition comment"
+                        },
+                        {
+                            "sortOrder": 4,
+                            "columnName": "stepOid",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "-",
+                            "partition": "",
+                            "notes": "Step oid to tag Step with Road Requisition "
+                        },
+                        {
+                            "sortOrder": 5,
+                            "columnName": "createdBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "System",
+                            "partition": "-",
+                            "notes": "who created the record, default is System"
+                        },
+                        {
+                            "sortOrder": 6,
+                            "columnName": "createdOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "Yes",
+                            "default": "current_timestamp",
+                            "partition": "-",
+                            "notes": "when the record was created"
+                        },
+                        {
+                            "sortOrder": 7,
+                            "columnName": "updatedBy",
+                            "type": "varchar",
+                            "precision": "128",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "who last updated the record"
+                        },
+                        {
+                            "sortOrder": 8,
+                            "columnName": "updatedOn",
+                            "type": "timestamp",
+                            "precision": "-",
+                            "scale": "-",
+                            "required": "-",
+                            "default": "-",
+                            "partition": "-",
+                            "notes": "when the record was last updated"
+                        }
+                    ],
+                    "constraints": [
+                        {
+                            "columnName": "oid",
+                            "constraintType": "Primary",
+                            "check": "-",
+                            "reference": "-",
+                            "sortOrder": 1
+                        },
+                        {
+                            "columnName": "roadRequisitionOid",
+                            "constraintType": "Foreign",
+                            "check": "-",
+                            "reference": "Road_Requisition.oid",
+                            "sortOrder": 2
+                        },
+                        {
+                            "columnName": "stepOid",
+                            "constraintType": "Foreign",
+                            "check": "-",
+                            "reference": "Step.oid",
+                            "sortOrder": 4
+                        }
+                    ],
+                    "data": [],
+                    "partition": "-",
+                    "notes": "Requisition State Information"
+                }
+            ]
+        }
+    ]
+}

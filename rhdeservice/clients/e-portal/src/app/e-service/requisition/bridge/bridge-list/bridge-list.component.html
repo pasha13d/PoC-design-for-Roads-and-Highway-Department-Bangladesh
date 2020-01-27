@@ -1,0 +1,30 @@
+<mat-card>
+  <mat-card-title>{{ 'bridge_list' | translate }}
+    <a mat-flat-button color="primary" class="pull-right" [routerLink]="['add-bridge']">
+      <mat-icon>add</mat-icon>
+    </a>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <mat-card-content class="pt-3">
+    <ejs-grid #grid [dataSource]='data' [locale]='locale' [pageSettings]='pageSettings' [allowSorting]="true"
+      showColumnMenu='true' allowFiltering='true' [filterSettings]='filterSettings'
+      [contextMenuItems]="contextMenuItems">
+      <e-columns>
+        <e-column field='serialNo' headerText="{{ 'SerialNo' | translate }}" width=50 [allowEditing]='false'>
+          <ng-template #template let-data>
+            <span>{{ +data.index + 1 + serial | localNumber}}</span>
+          </ng-template>
+        </e-column>
+        <e-column field='username' headerText="{{ 'Username' | translate }}" width=90></e-column>
+        <e-column field='name' headerText="{{ 'Name' | translate }}" width=90></e-column>
+        <e-column field='email' headerText="{{ 'Role' | translate }}" width=90></e-column>
+      </e-columns>
+    </ejs-grid>
+    <ejs-pager #pager [locale]='locale' [pageSizes]='pageSettings.pageSizes' [pageSize]='pageSettings.pageSize'
+      [pageCount]='pageSettings.pageCount' [totalRecordsCount]='totalCount' [currentPage]="pageSettings.currentPage"
+      (dropDownChanged)="dropDownChanged($event)" (click)="pageChange($event)"></ejs-pager>
+
+  </mat-card-content>
+  <!-- <mat-divider></mat-divider> -->
+  <mat-card-actions></mat-card-actions>
+</mat-card>

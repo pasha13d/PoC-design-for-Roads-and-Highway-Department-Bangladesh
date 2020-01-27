@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+
+import sys
+import unittest
+import requests
+import string
+from basetest import BaseTestCase
+
+class ServiceTestCase(unittest.TestCase, BaseTestCase):
+
+    _CODE_EXPECTED = '200'
+    _CODE_EXPECTED_MSG = 'responseCode must be 200 for this test scenario'
+    _ATTRS = <mandatory_attribute_list>
+    _OPT_ATTRS = <optional_attribute_list>
+
+    def test_service(self):
+        self.assertEqual(requests.codes.ok, self.response.status_code)
+        self.assertTrue(self._CODE_EXPECTED in self.response_data["header"]["responseCode"], self._CODE_EXPECTED_MSG)
+
+        for attribute in self._ATTRS:
+            self.assertIsNotNone(self.response_data["body"][attribute], "Required attribute not found : %s" % attribute)
+
+        ALL_ATTRS = self._ATTRS + self._OPT_ATTRS
+
+        for attr in self.response_data["body"]:
+            self.assertTrue(attr in ALL_ATTRS, "Unknown attribute found : %s" % attr)
+
+    def setUp(self):
+        super().prepare()
+        super().post()
+
+    def tearDown(self):
+        super().report(sys.argv[0])
+
+if __name__ == '__main__':
+    if len(sys.argv) == 4:
+        (ServiceTestCase._TOKEN, ServiceTestCase._SERVICE, ServiceTestCase._URL) = (sys.argv.pop(), sys.argv.pop(), sys.argv.pop())
+    else:
+        print("Usage: " + sys.argv[0] + " URL SERVICE TOKEN")
+        exit(1)
+
+    unittest.main()

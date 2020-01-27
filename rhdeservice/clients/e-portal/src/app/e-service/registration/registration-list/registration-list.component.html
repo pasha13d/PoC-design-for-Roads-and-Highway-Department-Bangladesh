@@ -1,0 +1,33 @@
+<mat-card>
+  <mat-card-title>{{ 'Registration_TopMenu' | translate }}
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <mat-card-content class="pt-3">
+    <ejs-grid #grid [dataSource]='data' [locale]='locale' [pageSettings]='pageSettings' [allowSorting]="true"
+      showColumnMenu='true' allowFiltering='true' [filterSettings]='filterSettings'
+      [contextMenuItems]="contextMenuItems">
+      <e-columns>
+        <e-column field='serialNo' headerText="{{ 'SerialNo' | translate }}" width=50 [allowEditing]='false'>
+          <ng-template #template let-data>
+            <span>{{ +data.index + 1 + serial | localNumber}}</span>
+          </ng-template>
+        </e-column>
+        <e-column field='nameBn' headerText="{{ 'Name in Bangla' | translate }}" width=90></e-column>
+        <e-column field='designation' headerText="{{ 'designation' | translate }}" width=90></e-column>
+        <e-column field='nidNo' headerText="{{ 'National ID' | translate }}" width=90></e-column>
+        <e-column field='status' headerText="{{ 'current_status' | translate }}" width=90></e-column>
+        <e-column headerText="" width="90" >
+          <ng-template #template let-data>
+            <span><a [routerLink]="['/registration/registration-details', data.oid]">{{'view details' | translate}}</a></span>
+          </ng-template>
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+    <ejs-pager #pager [locale]='locale' [pageSizes]='pageSettings.pageSizes' [pageSize]='pageSettings.pageSize'
+      [pageCount]='pageSettings.pageCount' [totalRecordsCount]='totalCount' [currentPage]="pageSettings.currentPage"
+      (dropDownChanged)="dropDownChanged($event)" (click)="pageChange($event)"></ejs-pager>
+
+  </mat-card-content>
+  <!-- <mat-divider></mat-divider> -->
+  <mat-card-actions></mat-card-actions>
+</mat-card>

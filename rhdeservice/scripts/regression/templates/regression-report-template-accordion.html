@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CSB Regression Test Coverage Report</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+h1{
+	font-size: 1.3em;
+	color: #606060;
+}
+
+h2{
+	font-size: 0.7em;
+	color: #808080;
+}
+
+p.narrow-bottom-gap{
+    margin-bottom: 0px;
+}
+
+p.summary{
+    font-size: 1.20em;
+}
+
+p.product{
+    font-size: 1.15em;
+}
+
+p.component{
+    font-size: 1.10em;
+}
+
+p.feature{
+    font-size: 1.05em;
+}
+
+p.service{
+    font-size: 1.00em;
+}
+
+span.small{
+    font-size: 0.95em;
+}
+
+p.red, span.red{
+    color: red;
+}
+
+th, td {
+    padding: 10px;
+}
+
+table.summary{
+    font-size: 0.9em;
+    font-family: sans-serif;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-spacing: 2px;
+    background-color: #f8f8f8;
+}
+
+button.accordion {
+    background-color: #e0e0e0;
+    color: #404040;
+    cursor: pointer;
+    padding: 5px;
+    margin: 1px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 13px;
+    transition: 0.4s;
+}
+
+button.accordion.active, button.accordion:hover {
+    background-color: #d0d0d0;
+}
+
+div.table {
+    padding: 0 18px;
+    font-size: 0.8em;
+    font-family: sans-serif;
+    border: 1px solid #ffffff;
+}
+
+div.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+td.dark{
+    background-color: #e0e0e0;
+}
+
+td.light{
+    background-color: #f8f8f8;
+}
+
+td.left{
+    text-align: left;
+}
+
+td.right{
+    text-align: right;
+}
+
+td.center{
+    text-align: center;
+}
+
+button.accordion:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: #707070;
+    float: right;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+button.accordion.active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+</style>
+</head>
+<body>
+<h1>CSB Regression Test Coverage Report</h1>
+<h2>{{ d['generated-at'] }}</h2>
+<button class="accordion">
+    <p class="summary narrow-bottom-gap">Summary for milestone - {{ d['milestone'] }}</p>
+    {% if d['services-fail-count'] > 0 %}
+        <span class="small red">{{ d['services-fail-count'] }} services out of {{ d['services-count'] }} failed regression coverage</span>
+    {% else %}
+        <span class="small">all {{ d['services-count'] }} services passed regression coverage</span>
+    {% endif %}
+</button>
+<div class="panel">
+    <div class="table">
+        <table class="summary">
+        	<tbody>
+        		<tr>
+        			<td rowspan="4" class="left dark">
+        				Products
+        			</td>
+        			<td class="left">
+        				Total
+        			</td>
+        			<td class="center dark">
+        				{{ d['products-count'] }}
+        			</td>
+                    <td class="left">
+                        {{ d['products']|map(attribute='product')|join(', ') }}
+                    </td>
+        		</tr>
+        		<tr>
+        			<td class="left">
+        				Regression Failed
+        			</td>
+        			<td class="center dark">
+                        {% if d['products-fail-count'] > 0 %}
+                            <span class="red">{{ d['products-fail-count'] }}</span>
+                        {% else %}
+                            <span>{{ d['products-fail-count'] }}</span>
+                        {% endif %}
+        			</td>
+                    <td class="left">
+                        {% if d['products-fail-count'] > 0 %}
+                            <span class="red">
+                                {{ d['products']|rejectattr('coverage-status')|map(attribute='product')|join(', ') }}
+                            </span>
+                        {% else %}
+                            <span>
+                                &nbsp;
+                            </span>
+                        {% endif %}
+                    </td>
+        		</tr>
+        		<tr>
+        			<td class="left">
+        				Excluded
+        			</td>
+        			<td class="center dark">
+        				{{ d['products-excluded-count'] }}
+        			</td>
+                    <td class="left">
+                        {{ d['products-excluded']|join(', ') }}
+                    </td>
+        		</tr>
+        	</tbody>
+        </table>
+    </div>
+</div>
+{% for p in d['products'] %}
+    <button class="accordion">
+        <p class="product narrow-bottom-gap">{{ p['product'] }}</p>
+        {% if p['services-fail-count'] > 0 %}
+            <span class="small red">{{ p['services-fail-count'] }} services out of {{ p['services-count'] }} failed regression coverage</span>
+        {% else %}
+            <span class="small">all {{ p['services-count'] }} services passed regression coverage</span>
+        {% endif %}
+    </button>
+    <div class="panel">
+        {% for c in p['components'] %}
+            <button class="accordion">
+                <p class="component narrow-bottom-gap">{{ c['component'] }}</p>
+                {% if c['services-fail-count'] > 0 %}
+                    <span class="small red">{{ c['services-fail-count'] }} services out of {{ c['services-count'] }} failed regression coverage</span>
+                {% else %}
+                    <span class="small">all {{ c['services-count'] }} services passed regression coverage</span>
+                {% endif %}
+            </button>
+            <div class="panel">
+                {% for f in c['features'] %}
+                    <button class="accordion">
+                        <p class="feature narrow-bottom-gap">{{ f['feature'] }}</p>
+                        {% if f['services-fail-count'] > 0 %}
+                            <span class="small red">{{ f['services-fail-count'] }} services out of {{ f['services-count'] }} failed regression coverage</span>
+                        {% else %}
+                            <span class="small">all {{ f['services-count'] }} services passed regression coverage</span>
+                        {% endif %}
+                    </button>
+                    <div class="panel">
+                        {% for s in f['services'] %}
+                            <button class="accordion">
+                                {% if s['coverage-status'] == False %}
+                                    <p class="service narrow-bottom-gap red">{{ s['service'] }}</p>
+                                {% else %}
+                                    <p class="service narrow-bottom-gap">{{ s['service'] }}</p>
+                                {% endif %}
+                            </button>
+                            <div class="panel">
+                            <p>{{ s['path'] }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}
+<script>
+var accp = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < accp.length; i++) {
+  accp[i].onclick = function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight){
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  }
+}
+</script>
+</body>
+</html>

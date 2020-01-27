@@ -1,0 +1,21 @@
+=>> patter example :
+    {
+        "wronglength" : "8",
+        "malformed" : "0[12]\\d{11}|BDT\\d{9}|BDT\\d{13}",
+        "invalid" : ["A", "B", "C"]  // "0:" "5:10"
+    }
+
+=>> wronglength or invalid example:
+    -> 8                 # Exact 8
+    -> 5:10              # Range 5 to 10
+    -> :5                # Less than 5
+    -> 5:                # Greater than 5
+    -> 12,13,16          # length 12 or 13 or 16
+
+=>> malformed example:
+    -> "0[12]\\d{11}|BDT\\d{9}|BDT\\d{13}"     # bankAccountNo
+
+=>> invalid example:
+    -> ["A", "B", "C"]     # Allowed Values
+    -> 0:                  # range for int or double
+    

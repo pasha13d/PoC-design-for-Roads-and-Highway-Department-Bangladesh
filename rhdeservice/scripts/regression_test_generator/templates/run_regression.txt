@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]
+  	then
+        DEPLOYMENT_URL=<ZUUL_URL>
+    else
+        DEPLOYMENT_URL=$1
+fi
+
+if [ -z "$2" ]
+  	then
+        ROUTE=<ZUUL_ROUTE>
+    else
+        ROUTE=$2
+fi
+
+if [ -z "$3" ]
+  	then
+        TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NjYzMDM3ODYsInVzZXJfbmFtZSI6InRhbmltIiwiYXV0aG9yaXRpZXMiOlsiQVNULlFDLUNPTU1JVFRFRSIsIkFTVC5BU1NFVC1JTi1DSEFSR0UiLCJQUkMuUEUiLCJBU1QuQVNTRVQtTUFOQUdFUiJdLCJqdGkiOiIxOWZhMjdkZS1iODgzLTRmOTUtOTMyZC01Y2Y0OTBhMTViNTEiLCJjbGllbnRfaWQiOiJncnAtd2ViLXBvcnRhbCIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdfQ.Kt-yDo1OqYJWbQMrRlAdWC4zxykBc2sLbfzseWHyY9Y
+    else
+        TOKEN=$3
+fi
+
+URL=${DEPLOYMENT_URL}/${ROUTE}/
+SERVICE=<SERVICE>
+
+CURRENT_DATE=$(date +%Y-%m-%d)
+CURRENT_TIME=$(date +%H.%M.%S)
+LOG_DIR=/var/log/grp/<PRODUCT>/tests/regression/<COMPONENT>-service/python/"${SERVICE}"/"${CURRENT_DATE}"
+LOG_FILE="${LOG_DIR}"/run_regression__"${CURRENT_DATE}"__"${CURRENT_TIME}".log
+
+if [ ! -e "${LOG_DIR}" ]
+then
+	echo "creating directory :" "${LOG_DIR}"
+	mkdir -p "${LOG_DIR}"
+	if [ "$?" != "0" ]; then
+		echo "$(tput setaf 1)Could not create directory" "${LOG_DIR}" ". Exiting ...$(tput sgr 0)"
+		exit -1
+	fi
+		echo "Directory created  :" "${LOG_DIR}"
+fi
+
+echo "Logging output in  :" "${LOG_FILE}"
+
+echo "" | tee -a "${LOG_FILE}"
+echo "BeginScript run_regression" | tee -a "${LOG_FILE}"
+
+function process_service {
+	echo "" | tee -a "${LOG_FILE}"
+	echo "BeginService ${SERVICE}" | tee -a "${LOG_FILE}"
+	sc=0
+	fc=0
+
+	for f in service_test_*.py
+	do
+		let "sc = sc + 1"
+		echo "BeginTest ${f}" >> "${LOG_FILE}"
+		mytime="$(time -p ( "./${f}" ${URL} ${SERVICE} ${TOKEN} >> "${LOG_FILE}" 2>&1 ) 2>&1 1>/dev/null )"
+		if [ "$?" != "0" ]
+		then
+			seconds=$(echo $mytime | cut -f2 -d ' ')
+			echo "$(tput setaf 1)TestFailed in $(printf '%7s' ${seconds})s : ( $(printf '%2s' ${sc}) ) ${f}$(tput sgr 0)" | tee -a "${LOG_FILE}"
+			let "fc = fc + 1"
+		else
+			seconds=$(echo $mytime | cut -f2 -d ' ')
+			echo "$(tput setaf 2)TestPassed in $(printf '%7s' ${seconds})s : ( $(printf '%2s' ${sc}) ) ${f}$(tput sgr 0)" | tee -a "${LOG_FILE}"
+		fi
+		echo "EndTest   ${f}" >> "${LOG_FILE}"
+		echo "" >> "${LOG_FILE}"
+	done
+	echo "" | tee -a "${LOG_FILE}"
+	echo "(" "${sc}" ") test executed" | tee -a "${LOG_FILE}"
+	echo "(" "${fc}" ") test failed" | tee -a "${LOG_FILE}"
+	echo "EndService   ${SERVICE}" | tee -a "${LOG_FILE}"
+	echo "" | tee -a "${LOG_FILE}"
+}
+
+cd script
+process_service
+
+cd ..
+echo "EndScript run_regression" | tee -a "${LOG_FILE}"
+echo "" | tee -a "${LOG_FILE}"

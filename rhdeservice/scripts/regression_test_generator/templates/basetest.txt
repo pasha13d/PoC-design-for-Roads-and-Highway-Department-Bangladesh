@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+
+import yaml
+import json
+import uuid
+import requests
+import time
+from datetime import datetime
+from requests.auth import HTTPBasicAuth
+
+class BaseTestCase(object):
+    _TEST_DATA = '../data/request.json'
+
+    def __init__(self, url, service, token):
+        self._URL = url
+        self._SERVICE = service
+        self._TOKEN = token
+
+    def prepare(self):
+        self.startTime = time.time()
+        self._HEADERS = {
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json',
+            'Authorization': 'Bearer {}'.format(self._TOKEN)
+        }
+        with open(self._TEST_DATA, 'r') as data_file:
+            self.request_data = json.loads(data_file.read())
+
+        self.request_data["header"]["requestId"] = str(uuid.uuid4())
+        self.request_data["header"]["requestType"] = self._SERVICE
+        self.request_data["header"]["requestTime"] = datetime.now().isoformat() + 'Z'
+
+    def post(self):
+        self.request_json = json.dumps(self.request_data, indent=2)
+
+        self.url = self._URL + self._SERVICE
+        self.response = requests.post( self.url, data=self.request_json, headers=self._HEADERS, verify=True)
+        try:
+            self.response_data = json.loads(self.response.content.decode())
+            self.response_json = json.dumps(self.response_data, indent=2)
+        except:
+            traceback.print_exc()
+
+    def report(self, test):
+        print(self.request_json)
+        print(self.response_json)
+        print("--- {0:.3f} seconds to run {1}".format(time.time() - self.startTime, test))
