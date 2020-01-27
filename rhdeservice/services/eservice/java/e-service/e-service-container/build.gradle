@@ -1,0 +1,74 @@
+apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+buildscript {
+    repositories {
+        mavenCentral()
+		jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${project.ext.springBootVersion}")
+    }
+}
+
+mainClassName = "com.secl.eservice.EServiceApplication"
+
+dependencies {
+	compile project(':service-base')
+	compile project(':master-step-v1')
+	compile project(':master-document-v1')
+	compile project(':master-email-v1')
+	compile project(':requisition-road-v1')
+	compile project(':master-designation-v1')
+	compile project(':master-upazilla-v1')
+	compile project(':master-district-v1')
+	compile project(':master-division-v1')
+	compile project(':authentication-registration-v1')
+	compile project(':authentication-user-v1')
+}
+
+bootJar {
+    baseName = 'e-service'
+    version =  '1.0'
+    mainClassName = 'com.secl.eservice.EServiceApplication'
+}
+
+bootRun {
+    main = 'com.secl.eservice.EServiceApplication'
+}
+
+jar.enabled = true
+
+springBoot {
+	buildInfo {
+		properties {
+			artifact = 'e-service'
+			version = '1.0'
+			group = 'com.secl.eservice'
+			name = 'EServiceApplication'
+		}
+	}
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${project.ext.springCloudVersion}"
+	}
+}
+
+sourceSets {
+	main {
+        java {
+            srcDir 'src/java'
+        }
+        resources {
+            srcDir 'src/resources'
+        }
+    }
+    test {
+        java {
+            srcDir 'src/java'
+        }
+    }
+}

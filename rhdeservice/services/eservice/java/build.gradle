@@ -1,0 +1,50 @@
+apply plugin: 'build-dashboard'
+apply plugin: 'net.anshulverma.gradle.estilo'
+
+buildscript {
+	repositories {
+		mavenCentral()
+	    jcenter()
+	}
+	dependencies {
+		classpath 'net.anshulverma.gradle:gradle-estilo-plugin:0.4.8'
+	}
+}
+
+subprojects {
+
+  	apply plugin: 'maven'
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+
+	version = '0.1'
+  	group = "com.secl"
+
+	ext {
+        springBootVersion = '2.0.5.RELEASE'
+		jansiVersion='1.11'
+		lombokVersion='1.18.4'
+		bootAdminVersion='2.0.4'
+		logbackColorizerVersion='1.0.1'
+		hystrixVersion='2.0.2.RELEASE'
+		springCloudVersion = 'Finchley.RELEASE'
+	}
+
+	repositories {
+		mavenCentral()
+		jcenter()
+	}
+
+	dependencies {
+		compileOnly("org.projectlombok:lombok:${project.ext.lombokVersion}")
+		annotationProcessor("org.projectlombok:lombok:${project.ext.lombokVersion}")
+	}
+
+	jar {
+		manifest.attributes provider: 'gradle'
+	}
+
+}

@@ -1,0 +1,36 @@
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+buildscript {
+    repositories {
+        mavenCentral()
+		jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${project.ext.springBootVersion}")
+    }
+}
+
+dependencies {
+	compile project(':service-base')
+}
+
+bootJar {
+    enabled = false
+}
+
+jar.enabled = true
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${project.ext.springCloudVersion}"
+	}
+}
+
+sourceSets {
+	main {
+        java {
+            srcDirs =  [ 'src/main/java/get-instance-step-list', 'src/main/java/save-requisition-instance', 'src/main/java/get-login-step-mapping', 'src/main/java/get-step-list-by-processOid' ]
+        }
+    }
+}
